@@ -1,0 +1,24 @@
+#eureka单机 配置
+server:
+  port: 8001 #运行端口号
+
+spring:
+  application:
+    name: eureka-server #服务名
+eureka:
+  instance:
+    hostname: loaclhost #主机地址
+  client:
+    fetch-registry: false #是否从注册中心获取服务（注册中心不需要开启该配置）
+    register-with-eureka: false #是否要注册到注册中心（注册中心不需要开启）
+    service-url:
+      # 此配置也不可少 https://blog.csdn.net/hq091117/article/details/81134544
+      # 配置此值，覆盖默认值：this.serviceUrl.put("defaultZone", "http://localhost:8761/eureka/");
+      defaultZone: http://localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false #关闭保护模式
+
+
+test:
+  value: test123
+  value2: ${value2}
