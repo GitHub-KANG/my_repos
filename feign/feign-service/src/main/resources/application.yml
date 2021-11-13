@@ -1,0 +1,17 @@
+server:
+  port: 8701
+spring:
+  application:
+    name: feign-service
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8001/eureka/
+feign:
+  hystrix:
+    enabled: true #在Feign中开启Hystrix
+#logging: #配置需要开启日志的Feign客户端，也可以通过java配置实现
+#  level:
+#    com.kjz.cloud.feign.service.feign.UserServiceFeign: debug
