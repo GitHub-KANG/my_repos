@@ -1,0 +1,13 @@
+# 访问有安全设置的注册中心
+server:
+  port: 8103
+spring:
+  application:
+    name: eureka-client
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      # 地址需要含有账户密码配置
+      defaultZone: http://kjz:123@localhost:8004/eureka/ #同时注册到两个注册中心
