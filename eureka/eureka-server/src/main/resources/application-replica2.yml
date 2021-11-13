@@ -1,0 +1,19 @@
+#eureka注册集群 配置replica2
+server:
+  port: 8003 #运行端口号
+
+spring:
+  application:
+    name: eureka-server #服务名
+eureka:
+  instance:
+    hostname: replica2 #主机地址
+  client:
+    fetch-registry: true #是否从注册中心获取服务（注册中心不需要开启该配置）
+    register-with-eureka: true #是否要注册到注册中心（注册中心不需要开启）
+    service-url:
+      # 此配置也不可少 https://blog.csdn.net/hq091117/article/details/81134544
+      # 配置此值，覆盖默认值：this.serviceUrl.put("defaultZone", "http://localhost:8761/eureka/");
+      defaultZone: http://replica1:8002/eureka/
+  #server:
+  # enable-self-preservation: false #关闭保护模式
