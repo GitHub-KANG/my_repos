@@ -1,0 +1,33 @@
+server:
+  port: 9204
+
+#service-url:
+#  user-service: http://localhost:8201
+
+spring:
+  application:
+    name: api-gateway
+#  redis:
+#    host: 192.168.198.104
+#    port: 6379
+#    database: 0
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #从注册中心动态创建路由
+          lower-case-service-id: true
+      routes:
+        - id: prefix_path
+          uri: lb://user-service
+          predicates:
+            - Method=GET
+          filters:
+            - PrefixPath=/user
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8001/eureka/

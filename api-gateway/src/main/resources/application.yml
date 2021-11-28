@@ -1,0 +1,22 @@
+server:
+  port: 9201
+
+service-url:
+  user-service: http://localhost:8201_xx
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: path_rout
+        uri: ${service-url.user-service}/user/{id}
+        predicates:
+          - Path=/user/{id}
+#eureka:
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8001/eureka/

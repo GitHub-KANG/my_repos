@@ -1,0 +1,58 @@
+server:
+  port: 9203
+
+service-url:
+  user-service: http://localhost:82018201_xx
+
+spring:
+  application:
+    name: api-gateway
+#  redis:
+#    host: 192.168.198.104
+#    port: 6379
+#    database: 0
+  cloud:
+    gateway:
+      routes:
+#        - id: hystrix_test #熔断降级
+#          uri: ${service-url.user-service}/user/{id}
+#          predicates:
+#            - Method=GET
+#          filters:
+#            - name: Hystrix
+#              args:
+#                name: fallbackcmd
+#                fallbackUri: forward:/fallback
+
+#        - id: redis_rate_limiter_test #redis限流 限流成功网页显示：HTTP ERROR 429
+#          uri: ${service-url.user-service}/user/{id}
+#          predicates:
+#            - Method=GET
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 1  #每秒允许处理的请求数量
+#                redis-rate-limiter.burstCapacity: 2  #每秒最大处理的请求数量
+#                key-resolver: "#{@ipKeyResolver}" #限流策略，对应策略的Bean
+
+        - id: route_retry_test #路由重试
+          uri: ${service-url.user-service}/dd/user/{id}
+          predicates:
+            - Method=GET
+          filters:
+            - name: Retry
+              args:
+                retries: 2  #重试次数
+                statuses: BAD_GATEWAY #要重试的返回码
+                backoff:
+                  firstBackoff: 10ms
+                  maxBackoff: 50ms
+                  factor: 2
+                  baseOnPreviousValue: false
+
+#eureka:
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8001/eureka/
